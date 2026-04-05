@@ -55,12 +55,48 @@ app.MapPost("/servicos", async (Servico s, AppDbContext db) =>
 app.MapGet("/servicos", async (AppDbContext db) =>
     await db.Servicos.ToListAsync());
 
+    app.MapPut("/servicos/{id}", async (int id, Servico input, AppDbContext db) =>
+{
+    var s = await db.Servicos.FindAsync(id);
+    if (s == null) return Results.NotFound();
+
+    s.Nome = input.Nome;
+    s.Preco = input.Preco;
+
+    await db.SaveChangesAsync();
+    return Results.Ok(s);
+});
+
+app.MapDelete("/servicos/{id}", async (int id, AppDbContext db) =>
+{
+    var s = await db.Servicos.FindAsync(id);
+    if (s == null) return Results.NotFound();
+
+    db.Servicos.Remove(s);
+    await db.SaveChangesAsync();
+
+    return Results.Ok();
+});
+
 
 // AGENDAMENTOS
 app.MapPost("/agendamentos", async (Agendamento a, AppDbContext db) =>
 {
+    var cliente = await db.Clientes.FindAsync(a.ClienteId);
+    var servico = await db.Servicos.FindAsync(a.ServicoId);
+
+    if (cliente == null || servico == null)
+        return Results.BadRequest("Cliente ou Serviço inválido");
+
+    var existe = await db.Agendamentos
+        .AnyAsync(x => x.Data == a.Data && x.ClienteId == a.ClienteId);
+
+    if (existe)
+        return Results.BadRequest("Cliente já tem agendamento nesse horário");
+
     db.Agendamentos.Add(a);
     await db.SaveChangesAsync();
+
     return Results.Ok(a);
 });
 

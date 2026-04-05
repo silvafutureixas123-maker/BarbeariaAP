@@ -143,3 +143,4 @@ C:\Users\Marcelo\BarbeariaAPI\obj\Debug\net10.0\refint\BarbeariaAPI.dll
 C:\Users\Marcelo\BarbeariaAPI\obj\Debug\net10.0\BarbeariaAPI.pdb
 C:\Users\Marcelo\BarbeariaAPI\obj\Debug\net10.0\BarbeariaAPI.genruntimeconfig.cache
 C:\Users\Marcelo\BarbeariaAPI\obj\Debug\net10.0\ref\BarbeariaAPI.dll
+C:\Users\Marcelo\BarbeariaAPI\obj\Debug\net10.0\BarbeariaAPI.sourcelink.json
